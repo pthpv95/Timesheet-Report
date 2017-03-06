@@ -1,0 +1,23 @@
+﻿
+
+<div id="list-item-project"></div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var searchText = $('input:text[name="SearchText"]').val();
+            loadProjects(searchText);
+        });
+            var loadProjects = function (SearchText) {
+                $.ajax({
+                    method: 'GET',
+                    url: '@Url.Action("GetListProject", "Admin")',
+                    data: { SearchText: SearchText },
+                    success: function (data) {
+                        $('#list-item-project').html(data);
+                    }
+                });
+            }
+        
+    </script>
+}

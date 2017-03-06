@@ -1,0 +1,78 @@
+﻿@model TimesheetReport.WebUI.ViewModels.Projects.ProjectViewModel
+
+@{
+    ViewBag.Title = "Projects Management";
+    int index = 0;
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<div class="navbar-form">
+    <div class="row">
+        <strong>Search :</strong>
+        @Html.TextBoxFor(model => model.SearchText, new { @class = "form-control input-sm", @placeholder = "Enter Project Name" })
+        <input type="button" value="Search" class="btn btn-info btn-sm" />
+        <input type="button" value="Reset" class="btn btn-default btnReset" />
+        <a class="btn btn-primary btnCreate btn-sm" href="@Url.Action("AddProject","Admin")">Create New</a>
+    </div>
+</div>
+
+<div class="form-group">
+    @if (Model.Items.Length != 0)
+    {
+        <table class="table">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Client Name</th>
+                <th>Status</th>
+                <th>Start date</th>
+                <th>Edit</th>
+            </tr>
+            @foreach (var item in Model.Items)
+            {
+                index = index + 1;
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @item.StartDate.ToString("M/dd/yyyy")
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditProject", "Admin", new { projectId = item.ProjectId})">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h3>Your list is empty</h3>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.btn-sm').on('click', function () {
+            var searchText = $('input:text[name="SearchText"]').val();
+            loadProjects(searchText);
+        });
+        $('.btnReset').on('click', function () {
+            $('input:text[name="SearchText"]').val("");
+            $('.btn-sm').trigger('click');
+            
+        })
+    })
+</script>

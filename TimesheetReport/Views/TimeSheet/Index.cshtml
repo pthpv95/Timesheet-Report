@@ -1,0 +1,69 @@
+﻿@model TimesheetReport.Core.Infrastructure.Handler.TimeSheets.ImportTimeSheetDataFromExcelResult
+
+@{
+    ViewBag.Title = "TimeSheetDataUpload";
+}
+<hr />
+<div class="alert alert-danger fade in" role="alert" id="importMessageFail" style="display: none;">
+    <p></p>
+</div>
+<div class="box-search">
+    @using (Html.BeginForm("TimeSheetDataUpload", "TimeSheet", FormMethod.Post, new { id = "fImportFile", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label>Choose your timesheet file(xlxs)</label>
+            <input type="file" class="form-control" name="selectedFile" placeholder="" />
+        </div>
+        <button type="submit" class="btn btn-info">Import</button>
+    }
+</div>
+
+@if(Model!= null && Model.HasError)
+{
+    <div class="alert alert-danger">
+        <strong>Import timesheet failed with those errors</strong>
+        @foreach (var error in Model.Errors)
+        {
+            var errorMessage = error.Error;
+            if (error.RowNumber.HasValue)
+            {
+                errorMessage = string.Format("Data in row {0} column {1} is incorrect : {2}", error.RowNumber, error.ColumnName, error.Error);
+            }
+            <p>@errorMessage</p>
+        }
+    </div>
+}
+else if (Model != null)
+{
+    <div class="alert alert-success">
+        <strong>Timesheet data has been imported !!</strong>
+    </div>
+}
+
+@section scripts{
+    <script type="text/javascript">
+    $(function () {
+        $("#fImportFile").submit(function (event) {
+            var files = $('input[name=selectedFile]').get(0).files;
+            if (files.length < 1) {
+                $('#importMessageFail').show();
+                $('#importMessageFail p:first').html('Please input a file');
+                return false;
+            }
+            else if (files[0].size > 2097152) {
+                $('#importMessageFail').show();
+                $('#importMessageFail p:first').html('File size must be smaller than 2 megabyte!');
+            } else {
+                var extension = $('input[name=selectedFile]').val().split('.').pop().toUpperCase();
+                if (extension.toUpperCase() != "XLSX") {
+                    $('#importMessageFail').show();
+                    $('#importMessageFail p:first').html('File must be an Excel 2007 or later (.xlsx) file!');
+                    return false;
+                }
+                $('#fImportFile').submit();
+            }
+        })
+    })
+    </script>
+}

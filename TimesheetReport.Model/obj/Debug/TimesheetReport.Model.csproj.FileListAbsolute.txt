@@ -1,0 +1,5 @@
+D:\ImportFileExcelTimeSheet\SourceCode\TimesheetReport.Model\bin\Debug\TimesheetReport.Model.dll
+D:\ImportFileExcelTimeSheet\SourceCode\TimesheetReport.Model\bin\Debug\TimesheetReport.Model.pdb
+D:\ImportFileExcelTimeSheet\SourceCode\TimesheetReport.Model\obj\Debug\TimesheetReport.Model.dll
+D:\ImportFileExcelTimeSheet\SourceCode\TimesheetReport.Model\obj\Debug\TimesheetReport.Model.pdb
+D:\ImportFileExcelTimeSheet\SourceCode\TimesheetReport.Model\obj\Debug\TimesheetReport.Model.csprojResolveAssemblyReference.cache
